@@ -1,0 +1,43 @@
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script> 
+ <script src="http://malsup.github.com/jquery.form.js"></script> 
+<a href="/homepage/">back</a>
+
+<form method="post" name="music path form">
+<input id="filepath" type="text">
+<input type="button" id="button" value="set media directory">
+{% csrf_token %}
+</form>
+
+<script>
+$(document).ready(function() {
+$("#button").click(function() {
+
+var filepath = $("#filepath").val();
+$.ajax({
+url : "/music_set",
+type : "POST",
+dataType: "json",
+data : {
+filep : filepath,
+csrfmiddlewaretoken: '{{ csrf_token }}'
+},
+success : function(json) {
+
+alert(json.server_response);
+window.location.replace("/homepage/");
+
+},
+error : function(xhr,errmsg,err) {
+alert("fail");
+}
+});
+return false;
+});
+});
+</script>
+
+
+
+
+
+

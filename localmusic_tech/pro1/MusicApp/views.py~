@@ -1,0 +1,51 @@
+import os
+import json
+from django.http import *
+from Utilities import filehandler
+from Utilities import linktofile
+from Utilities import searchLocalDir
+from Utilities import clearstatic
+from django.shortcuts import render
+from Youtube.youtubesearch import Youtube
+from LocalAudio.audiobuilder import AudioBuild
+
+clearstatic.clearStatic()
+MEDIA_DIR = filehandler.readFile() 
+
+def my_homepage_view(request):
+        return render(request, 'default.html')
+
+def homepage(request):
+	global MEDIA_DIR
+	audioObjList = []
+	mp3paths = searchLocalDir.get_filepaths(MEDIA_DIR)
+	audio = AudioBuild("")
+	for path in mp3paths:
+		audioObjList.append(audio.buildAudioObj(path))		
+        return render(request, 'searchForm.html', {'songO': audioObjList})
+
+def musicSet(request):
+	x = 0
+	return render(request, 'musicSet.html', {'x':x})
+
+def ajax(request):
+	response_dict = {}   
+	staticPath = request.POST['staticp']                 
+	filePath = request.POST['filep']      
+	linktofile.linktostatic(filePath)                                                  
+	response_dict.update({'server_response': staticPath })                                                                  
+	return HttpResponse(json.dumps(response_dict), content_type='application/javascript')
+	
+def ajax2(request):
+	global MEDIA_DIR
+	response_dict = {}        
+	MEDIA_DIR = request.POST['filep']     
+	filehandler.writeFile(MEDIA_DIR)       
+	response = "Media Directory saved as '" + media_dir + "'"                     
+	response_dict.update({'server_response': response })                                                               
+	return HttpResponse(json.dumps(response_dict), content_type='application/javascript')
+
+
+
+
+
