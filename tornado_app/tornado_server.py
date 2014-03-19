@@ -10,13 +10,17 @@ import json
 #MEDIA_DIR = filehandler.readFile() 
 CON = Control()
 CON.start()
-print "controls ran"
+print "controls have been ran. IT IS ALIVE!!"
 
 
 
 class MainHandler(tornado.web.RequestHandler):
     def get(request):
-        request.render("index.html")
+        class a:
+            pass
+        a.name = "Rylan"
+        a.age = 1
+        request.render("index.html", ry=a)
  
         
 class PauseHandler(tornado.web.RequestHandler):
@@ -34,6 +38,7 @@ class WSHandler(tornado.websocket.WebSocketHandler):
       
     def on_message(self, message):
         CON.playsong("C:\\users\\rylan\\Music\\x.mp3")
+        self.write_message("C:\\users\\rylan\\Music\\x.mp3")
         for i in range(10000):
         	print i
         CON.stop()

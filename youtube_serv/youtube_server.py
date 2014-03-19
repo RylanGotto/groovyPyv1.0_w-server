@@ -14,6 +14,8 @@ class MainHandler(tornado.web.RequestHandler):
 		ops.max_results = 9
 		youtube_json = yss.youtube_search(ops)
 		self.write(json.dumps(youtube_json))
+
+		
 class MHandler(tornado.web.RequestHandler):
 	def get(request):
 		request.render("index.html")

@@ -1,10 +1,10 @@
-from sqlite3_wrap import Sqlwrapper
-from pymedia_wrap import PMwrapper
-
+from util.sqlite3_wrap import Sqlwrapper
+from util.pymedia_wrap import PMwrapper
 import time
 
 
 class Control(object):
+	
 	def __init__(self):
 		self.db = Sqlwrapper()
 		self.player = PMwrapper()
