@@ -1,0 +1,44 @@
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script> 
+<script src="http://malsup.github.com/jquery.form.js"></script> 
+
+    <script>
+      $(document).ready(function () {
+ 
+        var ws = new WebSocket("ws://localhost:8888/ws");
+        ws.onmessage = function(evt) {alert("message received: " + evt.data)};
+        $("#clickme").click(function(evt) {
+          evt.preventDefault();
+
+            ws.send("connected");
+          
+        });
+ 
+      });
+    </script>
+<input type="button" id="clickme" value="play">
+
+ <script>
+$(document).ready(function () {
+$('#send').click( function() {
+  ws.send("Hellos");
+  alert("yo");
+} );
+});
+</script>
+
+<input type="button" id="send" value="send">
+
+
+
+
+<script>
+$(document).ready( function() {
+    /* handle the click event on the clickme */
+    $('#clickme1').click( function() {
+        params = { op: "checkup" };
+        $.getJSON( 'http://localhost:8888/pause');
+    });
+});
+</script>
+<input type="button" id="clickme1" value="pause"> or unpause
+
