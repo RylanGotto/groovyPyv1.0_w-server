@@ -30,16 +30,34 @@ def youtube_search(options):
 
   # Add each result to the appropriate list, and then display the lists of
   # matching videos, channels, and playlists.
-  for search_result in search_response.get("items", []):
-    if search_result["id"]["kind"] == "youtube#video":
-      videos.append("%s (%s)" % (search_result["snippet"]["title"],
-                                 search_result["id"]["videoId"]))
+vids = {}
+for search_result in search_response.get("items", []):
+	if search_result["id"]["kind"] == "youtube#video":
+		videos.append("%s %s %s" % (search_result["snippet"]["title"],
+                             search_result["id"]["videoId"],
+                             search_result["snippet"]["thumbnails"]['medium']['url']))
    
       
 
 
   return search_response
 
- 
 
 
+
+
+
+def getz(search_response):
+	videos = []
+		for search_result in search_response.get("items", []):
+			if search_result["id"]["kind"] == "youtube#video":
+				videos.append("%s %s %s" % (search_result["snippet"]["title"],
+		                             search_result["id"]["videoId"],
+		                             search_result["snippet"]["thumbnails"]['medium']['url']))
+	return videos
+
+
+
+search_result["id"]["videoId"]
+search_result["snippet"]["title"]
+search_result["snippet"]["thumbnails"]['medium']['url'] 

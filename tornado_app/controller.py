@@ -1,5 +1,6 @@
 from util.sqlite3_wrap import Sqlwrapper
 from util.pymedia_wrap import PMwrapper
+import requests
 import time
 
 
@@ -48,3 +49,13 @@ class Control(object):
 		return self.player.isPlaying()
 
 
+	def getson(self, terms):
+		payload = {'searchterms': terms}
+		youtube = []
+		search_response = requests.get("http://iamrylangotto.com:8000", params=payload).json()
+		for search_result in search_response.get("items", []):
+			if search_result["id"]["kind"] == "youtube#video":
+				youtube.append([search_result["snippet"]["title"],
+		                             search_result["id"]["videoId"],
+		                             search_result["snippet"]["thumbnails"]['medium']['url']])
+		return youtube
