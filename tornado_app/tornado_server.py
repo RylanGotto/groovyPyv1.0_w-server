@@ -5,6 +5,7 @@ import tornado.websocket
 import tornado.ioloop
 import tornado.web
 import json
+import local_search
 
 
 
@@ -38,13 +39,25 @@ class WSHandler(tornado.websocket.WebSocketHandler):
         instruc = response.get('instruction') 
         terms = response.get('terms')
         youtube_d = {}
+        localmusic_d = {}
+        i = 0
         if int(instruc) == 0:
             for i in CON.getson(terms):
                 title = i[0]
-                videoUrl = "http://www.youtube.com/embed/" + i[1]
-                thumbnail = i[2]
-                youtube_d.update({'type': 0, 'title':title, 'videoUrl':videoUrl, 'thumbnail':thumbnail})
+                thumbnail = i[1]
+                videoUrl = "http://www.youtube.com/embed/" + i[2] 
+                youtube_d.update({'type': 0, 'title':title, 'thumbnail':thumbnail, 'videoUrl':videoUrl})
                 self.write_message(json.dumps(youtube_d))
+            names = local_search.search_filenames(terms, "C:\\users\\rylan\\music")
+            for key, value in names.items():
+                path = key
+                title = value
+                localmusic_d.update({'type': 1, 'path':path, 'title2':title})
+                self.write_message(json.dumps(localmusic_d))
+        if int(instruc) == 1:
+            print terms
+                
+
 
                
            

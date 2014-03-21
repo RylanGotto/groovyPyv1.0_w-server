@@ -50,12 +50,14 @@ class Control(object):
 
 
 	def getson(self, terms):
-		payload = {'searchterms': terms}
-		youtube = []
-		search_response = requests.get("http://iamrylangotto.com:8000", params=payload).json()
+		videos = []
+		pay = {'searchterms': terms}
+		search_response = requests.get("http://iamrylangotto.com:8000", params=pay).json()
 		for search_result in search_response.get("items", []):
 			if search_result["id"]["kind"] == "youtube#video":
-				youtube.append([search_result["snippet"]["title"],
-		                             search_result["id"]["videoId"],
-		                             search_result["snippet"]["thumbnails"]['medium']['url']])
-		return youtube
+				title = search_result["snippet"]["title"]
+				thumbnail = search_result["snippet"]["thumbnails"]["medium"]["url"]
+				videoId = search_result["id"]["videoId"]
+				videos.append([title, thumbnail, videoId])
+		return videos
+			

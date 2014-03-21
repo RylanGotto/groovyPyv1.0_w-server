@@ -3,38 +3,63 @@
 
     <script>
       $(document).ready(function () {
- 
+ 		var counter = 0;
         var ws = new WebSocket("ws://localhost:8888/ws");
 
+        
+
+       
+
         ws.onmessage = function(evt) {
+        
+
         json = JSON.parse(evt.data);
         switch(json.type){
           case 0:
-          $('#youtube_results').append("<div class=\"youtube\">" + "<img src=" + json.thumbnail + ">" + "<p>" + json.title + "</p>" + "<p>" + json.videoUrl + "</p>" + "</div>");
+          $('<div/>', {
+    		"class": 'youtube',
+    		html: "Title: " + json.title
+    		+  "<img src=" + json.thumbnail +"></div>"
+			}).appendTo('#youtube_results');
+
+          
+          counter++;
+          break;
+          case 1:
+          $('#localmusic_results').append("<div class=\"localmus\">" + "<input type=\"hidden\" value=" + json.path + "></input>" + "<p>Title: " + json.title2 + "</p>" + "</div>");
+          break;
         };
+
         }
         
-
-
+		
 
         $("#play").click(function(evt) {
-        ws.send("connected");
+        ws.send("connected" + " $1");
         });
 
 
         $('#send').click( function() {
-        ws.send("Hellos");
+        ws.send("Hellos" + " $1");
         });
 
 
         $('#submit').click( function() {
         if ($('#search').val() != ''){
-          var terms = $('#search').val();
+        	var terms = $('#search').val();
+        	if (counter > 10){ 
+        		$('#youtube_results').empty();
+        	}
+          $('#localmusic_results').empty();
           ws.send(terms + " $0");
         }
         
         });
 
+        $('.youtube').click( function(){
+		var t = $(this).children().val();
+		ws.send(t + " $1");
+		});
         
 
         
@@ -42,7 +67,7 @@
       });
     </script>
 
-    
+
 <input type="button" id="play"  value="play">
 <input type="button" id="send"  value="send">
 <input type="button" id="pause" value="pause">
@@ -53,4 +78,12 @@
 <Div id="youtube_results" style="overflow: auto; width:1000px; height:300px;">
   
 </Div>
+
+<Div id="localmusic_results" style="overflow: auto; width:1000px; height:300px;">
+  
+</Div>
+
+<div id="test"></div>
+
+
 

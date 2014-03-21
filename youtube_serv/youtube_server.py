@@ -5,14 +5,13 @@ import tornado.web
 import json
 import yss
 from searchops import Option
+import requests
 
 class MainHandler(tornado.web.RequestHandler):
 	def get(self):
 		terms = self.get_arguments('searchterms', None)
-		ops = Option()
-		ops.q = terms
-		ops.max_results = 9
-		youtube_json = yss.youtube_search(ops)
+		pay = {'q':terms, 'part':'snippet', 'type':'video', 'key':"AIzaSyAA9qq8WQv7m_l3uwmejZfc1BqPAqjOdeM"}
+		youtube_json = requests.get("https://www.googleapis.com/youtube/v3/search", params=pay).json()
 		self.write(json.dumps(youtube_json))
 
 		
@@ -30,5 +29,9 @@ application = tornado.web.Application([
  
 if __name__ == "__main__":
     http_server = tornado.httpserver.HTTPServer(application)
-    http_server.listen(8000, address='192.168.0.103')
+    http_server.listen(8080)
     tornado.ioloop.IOLoop.instance().start()
+
+
+
+

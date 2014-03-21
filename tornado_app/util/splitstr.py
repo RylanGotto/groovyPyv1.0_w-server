@@ -1,4 +1,5 @@
 def split(message):
+	print message
 	val = message.index('$')
 	subval = val
 	subval -= 1
