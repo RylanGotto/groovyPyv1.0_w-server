@@ -39,13 +39,21 @@ class WSHandler(tornado.websocket.WebSocketHandler):
     	videos = []
     	mp3s = []
     	x = {}
+    	print message
     	if int(ins['type']) == 0:
-    		print 1
 	    	for i in CON.getson(ins['data']):
-	    		print 2
 	        	videos.append({'title':i[0],'thumbnail':i[1],'url':i[2]})        
 		x.update({'type':'search_response', 'data':videos})
-		self.write_message(json.dumps(x))
+	elif x == 1:
+		print 1 + 5
+        self.write_message(x)
+
+
+		
+
+			
+
+
 
         
         
