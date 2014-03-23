@@ -39,14 +39,11 @@ class WSHandler(tornado.websocket.WebSocketHandler):
     	videos = []
     	mp3s = []
     	x = {}
-
     	if int(ins['type']) == 0:
 	    	for i in CON.getson(ins['data']):
 	        	videos.append({'title':i[0],'thumbnail':i[1],'url':i[2]})
-		        x.update({'type':'search_response', 'data':videos})
-
-        
-        
+			x.update({'type':'search_response', 'data':videos})
+            self.write_message("hello")
 
 application = tornado.web.Application([
     (r"/", MainHandler),

@@ -1,89 +1,84 @@
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script> 
-<script src="http://malsup.github.com/jquery.form.js"></script> 
-
-    <script>
-      $(document).ready(function () {
- 		var counter = 0;
-        var ws = new WebSocket("ws://localhost:8888/ws");
-
-        
-
-       
-
-        ws.onmessage = function(evt) {
-        
-
-        json = JSON.parse(evt.data);
-        switch(json.type){
-          case 0:
-          $('<div/>', {
-    		"class": 'youtube',
-    		html: "Title: " + json.title
-    		+  "<img src=" + json.thumbnail +"></div>"
-			}).appendTo('#youtube_results');
-
-          
-          counter++;
-          break;
-          case 1:
-          $('#localmusic_results').append("<div class=\"localmus\">" + "<input type=\"hidden\" value=" + json.path + "></input>" + "<p>Title: " + json.title2 + "</p>" + "</div>");
-          break;
-        };
-
-        }
-        
-		
-
-        $("#play").click(function(evt) {
-        ws.send("connected" + " $1");
-        });
+<script src="http://www.google.com/jsapi"></script>
+<script>google.load("jquery", "1.3")</script>
+<script src="http://jquery-json.googlecode.com/files/jquery.json-2.2.min.js"></script>
+<script src="http://jquery-websocket.googlecode.com/files/jquery.websocket-0.0.1.js"></script>
 
 
-        $('#send').click( function() {
-        ws.send("Hellos" + " $1");
-        });
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+
+</head>
+<body>
 
 
-        $('#submit').click( function() {
-        if ($('#search').val() != ''){
-        	var terms = $('#search').val();
-        	if (counter > 10){ 
-        		$('#youtube_results').empty();
-        	}
-          $('#localmusic_results').empty();
-          ws.send(terms + " $0");
-        }
-        
-        });
-
-        $('.youtube').click( function(){
-		var t = $(this).children().val();
-		ws.send(t + " $1");
-		});
-        
-
-        
-
-      });
-    </script>
 
 
-<input type="button" id="play"  value="play">
-<input type="button" id="send"  value="send">
-<input type="button" id="pause" value="pause">
+<input id="message" type="text"/>
 
-<input type="text" id="search">
-<input type="button" id="submit" value="submit">
-
-<Div id="youtube_results" style="overflow: auto; width:1000px; height:300px;">
-  
-</Div>
-
-<Div id="localmusic_results" style="overflow: auto; width:1000px; height:300px;">
-  
-</Div>
+<div id="youresult">
+<div  class="youtube" id="div0"><input  type="hidden" value="rylan" ><h2></h2><img src=""/></div>
+<div  class="youtube" id="div1"><input  type="hidden" value="rylan" ><h2></h2><img src=""/></div>
+<div  class="youtube" id="div2"><input  type="hidden" value="rylan" ><h2></h2><img src=""/></div>
+<div  class="youtube" id="div3"><input  type="hidden" value="rylan" ><h2></h2><img src=""/></div>
+<div  class="youtube" id="div4"><input  type="hidden" value="rylan" ><h2></h2><img src=""/></div>
+</div>
 
 <div id="test"></div>
 
 
 
+
+
+<script>
+var counter = 0;
+
+function youtube_handler(e){
+	var low_you  = new Array("div0","div1","div2","div3", "div4") ;
+  var high_you = new Array("div5","div6","div7","div8", "div9");
+
+  if (counter < 5){
+    for(var i = 0; i<low_you.length;i++){
+      var mainDiv = document.getElementById(low_you[i]);
+      var titl = document.createElement('h2');
+      titl.innerHTML = e.data.title;
+      mainDiv.appendChild(titl);
+  }
+  }
+
+}
+    var low_you  = new Array("div0","div1","div2","div3", "div4");
+
+    var ws = $.websocket("ws://localhost:8888/ws", {
+        events: {
+                search_response: function(e) { 	      	
+                	for(var i = 0 ;i<low_you;i++){
+                    var mainDiv = document.getElementById(low_you[i]);
+                    mainDiv.children[0].value = e.data[i].url;
+                    mainDiv.children[2].src = e.data[i].thumbnail;
+                    mainDiv.children[1].innerHTML = e.data[i].title;
+
+                  }
+                }
+        }
+    });
+
+
+
+  $('#message').change(function(){
+    ws.send('0', this.value);
+    this.value = '';
+  });
+
+  $('.youtube').click( function(){
+    $t = $(this).children().val();
+    ws.send('1', $t);
+  });
+
+</script>
+
+
+
+</body>
+</html>
