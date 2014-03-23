@@ -16,17 +16,17 @@
 
 
 <input id="message" type="text"/>
-
-<div id="youresult">
-<div  class="youtube" id="div0"><input  type="hidden" value="rylan" ><h2>fdsa</h2><img src=""/></div>
-<div  class="youtube" id="div1"><input  type="hidden" value="rylan" ><h2>fdas</h2><img src=""/></div>
-<div  class="youtube" id="div2"><input  type="hidden" value="rylan" ><h2>fdas</h2><img src=""/></div>
+<div  id="youresult" style="overflow: auto; width:500px; height:300px; margin-bottom:20px;">
+<div  class="youtube" id="div0"><input  type="hidden" value="rylan" ><h2></h2><img src=""/></div>
+<div  class="youtube" id="div1"><input  type="hidden" value="rylan" ><h2></h2><img src=""/></div>
+<div  class="youtube" id="div2"><input  type="hidden" value="rylan" ><h2></h2><img src=""/></div>
 <div  class="youtube" id="div3"><input  type="hidden" value="rylan" ><h2></h2><img src=""/></div>
 <div  class="youtube" id="div4"><input  type="hidden" value="rylan" ><h2></h2><img src=""/></div>
 </div>
 
 <div id="test"></div>
 
+<iframe id="you_player"  width="495" height="300" src="" id="gg" frameborder="0" allowfullscreen></iframe>
 
 
 
@@ -34,20 +34,7 @@
 <script>
 var counter = 0;
 
-function youtube_handler(e){
-	var low_you  = new Array("div0","div1","div2","div3", "div4") ;
-  var high_you = new Array("div5","div6","div7","div8", "div9");
 
-  if (counter < 5){
-    for(var i = 0; i<low_you.length;i++){
-      var mainDiv = document.getElementById(low_you[i]);
-      var titl = document.createElement('h2');
-      titl.innerHTML = e.data.title;
-      mainDiv.appendChild(titl);
-  }
-  }
-
-}
     var low_you  = new Array("div0","div1","div2","div3", "div4");
 
     var ws = $.websocket("ws://localhost:8888/ws", {
@@ -60,6 +47,9 @@ function youtube_handler(e){
                     mainDiv.children[1].innerHTML = e.data[i].title;
 
                   }
+                },
+                url_change: function(e){
+                  document.getElementById("you_player").src = e.data;
                 }
         }
     });
@@ -73,7 +63,7 @@ function youtube_handler(e){
 
   $('.youtube').click( function(){
     $t = $(this).children().val();
-    ws.send('1', $t);
+    ws.send('2', $t);
   });
 
 </script>

@@ -57,7 +57,7 @@ class Control(object):
 			if search_result["id"]["kind"] == "youtube#video":
 				title = search_result["snippet"]["title"]
 				thumbnail = search_result["snippet"]["thumbnails"]["medium"]["url"]
-				videoId = search_result["id"]["videoId"]
+				videoId = "//www.youtube.com/embed/"+search_result["id"]["videoId"]+"?autoplay=1"
 				videos.append([title, thumbnail, videoId])
 		return videos
 	
