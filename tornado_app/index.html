@@ -53,7 +53,7 @@ function youtube_handler(e){
     var ws = $.websocket("ws://localhost:8888/ws", {
         events: {
                 search_response: function(e) { 	      	
-                	for(var i = 0 ;i<low_you;i++){
+                    for(var i = 0 ;i<low_you.length;i++){
                     var mainDiv = document.getElementById(low_you[i]);
                     mainDiv.children[0].value = e.data[i].url;
                     mainDiv.children[2].src = e.data[i].thumbnail;
