@@ -39,7 +39,6 @@ class WSHandler(tornado.websocket.WebSocketHandler):
     	videos = []
     	mp3s = []
     	x = {}
-    	print message
     	if int(ins['type']) == 0:
     		print 1
 	    	for i in CON.getson(ins['data']):
