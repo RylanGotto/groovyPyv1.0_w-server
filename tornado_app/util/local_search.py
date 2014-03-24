@@ -15,6 +15,7 @@ def get_filepaths(directory):
 def search_filenames(terms, directory):
 	pathResults = {}
 	result = []
+	paths = []
 	mp3s = get_filepaths(directory)
 	user_terms = get_user_terms(terms)
 	for key, value in mp3s.items():
@@ -24,7 +25,9 @@ def search_filenames(terms, directory):
 			for dirword in dir_terms:
 				if usrword == dirword and value not in result:
 					result.append(value)
-					pathResults.update({key:value})
+					paths.append({'path':key, 'title':value})
+
+	pathResults.update({'data':paths})
 	return pathResults
 
 

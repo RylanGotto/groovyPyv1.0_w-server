@@ -12,22 +12,49 @@
 </head>
 <body>
 
-
-
+<iframe id="you_player"  width="495" height="300" src="" id="gg" frameborder="0" allowfullscreen></iframe>
+<div>NOW PLAYING: <div id="nowplaying"></div></div>
 
 <input id="message" type="text"/>
-<div  id="youresult" style="overflow: auto; width:500px; height:300px; margin-bottom:20px;">
-<div  class="youtube" id="div0"><input  type="hidden" value="rylan" ><h2></h2><img src=""/></div>
-<div  class="youtube" id="div1"><input  type="hidden" value="rylan" ><h2></h2><img src=""/></div>
-<div  class="youtube" id="div2"><input  type="hidden" value="rylan" ><h2></h2><img src=""/></div>
-<div  class="youtube" id="div3"><input  type="hidden" value="rylan" ><h2></h2><img src=""/></div>
-<div  class="youtube" id="div4"><input  type="hidden" value="rylan" ><h2></h2><img src=""/></div>
+<input id="pause"   type="submit" value="pause"/>
+
+
+
+
+<div  id="youresult" style="overflow: auto; width:500px; height:300px; margin:20px;">
+<div  class="youtube" id="ydiv0"><input  type="hidden" value="rylan" ><h2></h2><img src=""/></div>
+<div  class="youtube" id="ydiv1"><input  type="hidden" value="rylan" ><h2></h2><img src=""/></div>
+<div  class="youtube" id="ydiv2"><input  type="hidden" value="rylan" ><h2></h2><img src=""/></div>
+<div  class="youtube" id="ydiv3"><input  type="hidden" value="rylan" ><h2></h2><img src=""/></div>
+<div  class="youtube" id="ydiv4"><input  type="hidden" value="rylan" ><h2></h2><img src=""/></div>
+</div>
+
+
+
+<div  id="localresult" style="overflow: auto; width:500px; height:300px; margin:20px;">
+<div  class="youtube" id="ldiv0"><input  type="hidden" value="rylan" ><h2></h2><img src=""/></div>
+<div  class="youtube" id="ldiv1"><input  type="hidden" value="rylan" ><h2></h2><img src=""/></div>
+<div  class="youtube" id="ldiv2"><input  type="hidden" value="rylan" ><h2></h2><img src=""/></div>
+<div  class="youtube" id="ldiv3"><input  type="hidden" value="rylan" ><h2></h2><img src=""/></div>
+<div  class="youtube" id="ldiv4"><input  type="hidden" value="rylan" ><h2></h2><img src=""/></div>
+<div  class="youtube" id="ldiv5"><input  type="hidden" value="rylan" ><h2></h2><img src=""/></div>
+<div  class="youtube" id="ldiv6"><input  type="hidden" value="rylan" ><h2></h2><img src=""/></div>
+<div  class="youtube" id="ldiv7"><input  type="hidden" value="rylan" ><h2></h2><img src=""/></div>
+<div  class="youtube" id="ldiv8"><input  type="hidden" value="rylan" ><h2></h2><img src=""/></div>
+<div  class="youtube" id="ldiv9"><input  type="hidden" value="rylan" ><h2></h2><img src=""/></div>
+<div  class="youtube" id="ldiv10"><input  type="hidden" value="rylan" ><h2></h2><img src=""/></div>
+<div  class="youtube" id="ldiv11"><input  type="hidden" value="rylan" ><h2></h2><img src=""/></div>
+<div  class="youtube" id="ldiv12"><input  type="hidden" value="rylan" ><h2></h2><img src=""/></div>
+<div  class="youtube" id="ldiv13"><input  type="hidden" value="rylan" ><h2></h2><img src=""/></div>
+<div  class="youtube" id="ldiv14"><input  type="hidden" value="rylan" ><h2></h2><img src=""/></div>
+<div  class="youtube" id="ldiv15"><input  type="hidden" value="rylan" ><h2></h2><img src=""/></div>
+<div  class="youtube" id="ldiv16"><input  type="hidden" value="rylan" ><h2></h2><img src=""/></div>
+<div  class="youtube" id="ldiv17"><input  type="hidden" value="rylan" ><h2></h2><img src=""/></div>
+<div  class="youtube" id="ldiv18"><input  type="hidden" value="rylan" ><h2></h2><img src=""/></div>
+<div  class="youtube" id="ldiv19"><input  type="hidden" value="rylan" ><h2></h2><img src=""/></div>
 </div>
 
 <div id="test"></div>
-
-<iframe id="you_player"  width="495" height="300" src="" id="gg" frameborder="0" allowfullscreen></iframe>
-
 
 
 
@@ -35,18 +62,25 @@
 var counter = 0;
 
 
-    var low_you  = new Array("div0","div1","div2","div3", "div4");
+    var youdiv  = new Array("ydiv0","ydiv1","ydiv2","ydiv3", "ydiv4");
+    var locdiv  = new Array("ldiv0","ldiv1","ldiv2","ldiv3", "ldiv4","ldiv5","ldiv6","ldiv7", "ldiv8", "ldiv9","ldiv10","ldiv11","ldiv12", "ldiv13", "ldiv14","ldiv15","ldiv16","ldiv17", "ldiv18", "ldiv19");
+
 
     var ws = $.websocket("ws://localhost:8888/ws", {
         events: {
                 search_response: function(e) { 	      	
-                    for(var i = 0 ;i<low_you.length;i++){
-                    var mainDiv = document.getElementById(low_you[i]);
-                    mainDiv.children[0].value = e.data[i].url;
-                    mainDiv.children[2].src = e.data[i].thumbnail;
-                    mainDiv.children[1].innerHTML = e.data[i].title;
-
+                    for(var i = 0 ;i<e.data['youtube'].length;i++){
+                    var mainDiv = document.getElementById(youdiv[i]);
+                    mainDiv.children[0].value = e.data['youtube'][i].url;
+                    mainDiv.children[2].src = e.data['youtube'][i].thumbnail;
+                    mainDiv.children[1].innerHTML = e.data['youtube'][i].title;
                   }
+                    for(var i = 0;e.data['mp3'][0].data.length;i++){
+                    var mainDiv = document.getElementById(locdiv[i]);
+                    mainDiv.children[0].value = e.data['mp3'][0].data[i].path;
+                    mainDiv.children[1].innerHTML = e.data['mp3'][0].data[i].title;
+
+                    }
                 },
                 url_change: function(e){
                   document.getElementById("you_player").src = e.data;
@@ -61,10 +95,22 @@ var counter = 0;
     this.value = '';
   });
 
+  $('#pause').click( function() {
+    ws.send('8', '');
+  });
+
   $('.youtube').click( function(){
+    ws.send('9','')
     $t = $(this).children().val();
+    $('#nowplaying').empty();
+    $x = $(this).children().text();
+    $('#nowplaying').append($x);
     ws.send('2', $t);
   });
+
+$('#pause').toggle(
+ws.send('8','')
+);
 
 </script>
 
