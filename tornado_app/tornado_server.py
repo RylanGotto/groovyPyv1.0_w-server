@@ -7,6 +7,8 @@ import tornado.web
 import json
 from util import local_search
 
+import os
+dirname = os.path.dirname(__file__)
 
 # MEDIA_DIR = filehandler.readFile()
 CON = Control()
@@ -48,16 +50,17 @@ class WSHandler(tornado.websocket.WebSocketHandler):
                 ins['data'], "C:\\users\\rylan\\music")]
             x.update(
                 {'type': 'search_response', 'data': {'youtube': videos, 'mp3': mp3s}})
+            print x
            
         elif int(ins['type']) == 1:
             print ins['data']
 
         elif int(ins['type']) == 2:
-            if ins['data'][:1].lower() == 'c':
                 print ins['data']
                 CON.playsong(ins['data'])
-            else:
+        elif int(ins['type']) == 3:
                 x.update({'type': 'url_change', 'data': ins['data']})
+
         elif int(ins['type']) == 8:
             if CON.isPaused() == 1:
                 CON.unpause()
@@ -69,11 +72,20 @@ class WSHandler(tornado.websocket.WebSocketHandler):
         self.write_message(x)
 
 
+
+settings = {
+    "static_path": os.path.join(os.path.dirname(__file__), "static"),
+    "cookie_secret": "000",
+    "login_url": "/login",
+    "xsrf_cookies": True,
+}
+
 application = tornado.web.Application([
     (r"/", MainHandler),
-    (r'/ws', WSHandler)
-])
-
+    (r'/ws', WSHandler),
+    (r"/(960_12_col.css)", tornado.web.StaticFileHandler,
+     dict(path=settings['static_path'])),
+], **settings)
 
 if __name__ == "__main__":
     http_server = tornado.httpserver.HTTPServer(application)
