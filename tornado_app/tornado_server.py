@@ -6,9 +6,9 @@ import tornado.ioloop
 import tornado.web
 import json
 from util import local_search
-
+import thread
 import os
-dirname = os.path.dirname(__file__)
+dirname = os.getcwd()
 
 # MEDIA_DIR = filehandler.readFile()
 CON = Control()
@@ -74,7 +74,7 @@ class WSHandler(tornado.websocket.WebSocketHandler):
 
 
 settings = {
-    "static_path": os.path.join(os.path.dirname(__file__), "static"),
+    "static_path": os.path.join(os.getcwd(), "static"),
     "cookie_secret": "000",
     "login_url": "/login",
     "xsrf_cookies": True,
